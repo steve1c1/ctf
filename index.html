@@ -1257,9 +1257,14 @@ score  = Σ earned  <span class="c"># across all CTFs</span></div>
           <div class="f-row"><label>best topic</label><input id="dp-best" placeholder="e.g. SQL Injection"></div>
         </div>
         <div class="grid2">
+          <div class="f-row"><label>original name (command only)</label><input id="dp-real" placeholder="your real name"></div>
+          <div class="f-row"><label>portfolio</label><input id="dp-portfolio" placeholder="github.com/you · your.site"></div>
+        </div>
+        <div class="grid2">
           <div class="f-row"><label>discord (id / tag)</label><input id="dp-discord"></div>
           <div class="f-row"><label>linkedin url</label><input id="dp-linkedin"></div>
         </div>
+        <div class="f-row"><label>interested topics (min 3, comma separated)</label><input id="dp-topics" placeholder="web exploitation, crypto, reverse"></div>
         <div class="f-row"><label>quote</label><input id="dp-quote" placeholder='e.g. "give me an endpoint and sixty seconds."'></div>
         <div class="f-row"><label>expert topics (comma separated)</label><input id="dp-expert" placeholder="SQLi, SSRF, RCE"></div>
         <div class="f-row"><label>skill bars — one per line (NAME:percent)</label><textarea id="dp-skills" placeholder="WEB:95&#10;SSRF:90&#10;OSINT:70"></textarea></div>
@@ -1977,6 +1982,7 @@ class SupaBackend{
     await this._loadUsers();await this._loadCtfs();await this._loadInvites();
     await this._loadTeams();await this._loadResults();await this._loadHof();await this._loadSettings();
     try{await this._loadChans();}catch(e){}
+    if(this.me)this.me=this._cacheUsers.find(u=>u.id===this.me.id)||this.me;
   }
 }
 
@@ -2793,7 +2799,7 @@ function renderDashOverview(){
 }
 function renderDashProfile(){
   const u=S.me;
-  $("#dp-handle").value=u.handle||"";$("#dp-country").value=u.country||"";
+  $("#dp-handle").value=u.handle||"";$("#dp-country").value=u.country||"";$("#dp-real").value=u.real||"";$("#dp-topics").value=(u.topics||[]).join(", ");$("#dp-portfolio").value=u.portfolio||"";
   $("#dp-title").value=u.title||"";$("#dp-best").value=u.best||"";
   $("#dp-discord").value=u.discord||"";$("#dp-linkedin").value=u.linkedin||"";
   $("#dp-quote").value=u.quote||"";$("#dp-expert").value=(u.expert||[]).join(", ");
@@ -2812,7 +2818,10 @@ function renderDashProfile(){
 $("#dp-save").onclick=async()=>{
   const skills=$("#dp-skills").value.split("\n").map(l=>l.trim()).filter(Boolean).map(l=>{
     const[n,p]=l.split(":");return[n.trim(),Math.min(100,Math.max(0,+p||0))];}).slice(0,4);
+  const dtopics=$("#dp-topics").value.split(",").map(x=>x.trim()).filter(Boolean);
+  if(dtopics.length&&dtopics.length<3){toast("interested topics — minimum 3 required",true);return;}
   const patch={handle:$("#dp-handle").value.trim()||S.me.handle,country:$("#dp-country").value.trim(),
+    real:$("#dp-real").value.trim(),topics:dtopics,portfolio:$("#dp-portfolio").value.trim(),
     title:$("#dp-title").value.trim(),best:$("#dp-best").value.trim(),discord:$("#dp-discord").value.trim(),
     linkedin:$("#dp-linkedin").value.trim(),quote:$("#dp-quote").value.trim(),
     expert:$("#dp-expert").value.split(",").map(x=>x.trim()).filter(Boolean),skills,
@@ -3022,7 +3031,10 @@ function editUserModal(id){
     <div class="f-row"><label>best topic</label><input id="eu-best" value="${esc(u.best||"")}"></div>
     <div class="f-row"><label>discord</label><input id="eu-discord" value="${esc(u.discord||"")}"></div>
     <div class="f-row"><label>linkedin</label><input id="eu-linkedin" value="${esc(u.linkedin||"")}"></div>
+    <div class="f-row"><label>original name</label><input id="eu-real" value="${esc(u.real||"")}"></div>
+    <div class="f-row"><label>portfolio</label><input id="eu-portfolio" value="${esc(u.portfolio||"")}"></div>
    </div>
+   <div class="f-row"><label>interested topics (min 3, comma)</label><input id="eu-topics" value="${esc((u.topics||[]).join(", "))}"></div>
    <div class="f-row"><label>quote</label><input id="eu-quote" value="${esc(u.quote||"")}"></div>
    <div class="f-row"><label>expert topics (comma)</label><input id="eu-expert" value="${esc((u.expert||[]).join(", "))}"></div>
    <div class="f-row"><label>skills (lines of NAME:percent)</label><textarea id="eu-skills">${esc((u.skills||[]).map(s=>s[0]+":"+s[1]).join("\n"))}</textarea></div>
@@ -3031,7 +3043,9 @@ function editUserModal(id){
    <button class="btn small" id="gm-save">./save_operator</button>
   `,async()=>{
     const skills=$("#eu-skills").value.split("\n").map(l=>l.trim()).filter(Boolean).map(l=>{const[n,p]=l.split(":");return[n.trim(),Math.min(100,Math.max(0,+p||0))];});
+    const eutopics=$("#eu-topics").value.split(",").map(x=>x.trim()).filter(Boolean);
     const patch={handle:$("#eu-handle").value.trim(),role:$("#eu-role").value,country:$("#eu-country").value.trim(),
+      real:$("#eu-real").value.trim(),topics:eutopics,portfolio:$("#eu-portfolio").value.trim(),
       title:$("#eu-title").value.trim(),best:$("#eu-best").value.trim(),discord:$("#eu-discord").value.trim(),
       linkedin:$("#eu-linkedin").value.trim(),quote:$("#eu-quote").value.trim(),
       expert:$("#eu-expert").value.split(",").map(x=>x.trim()).filter(Boolean),skills,
@@ -4361,5 +4375,5 @@ window.__buildSqChips&&window.__buildSqChips();
 window.__themeSwatches&&window.__themeSwatches();
 
 </script>
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a43530e26bcc936c',t:'MTc5MDc5MTg5NQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a435764c7c5685c4',t:'MTc5MDc5NDczOA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
