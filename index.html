@@ -6,8 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EL SINDICATO BINARY // INTERNATIONAL CTF SYNDICATE</title>
-<meta name="description" content="El Sindicato Binary — an international CTF syndicate. One scoreboard. We pwn. We patch. We repeat.">
+<title>EL SINDICATO BINARIO // INTERNATIONAL CTF SYNDICATE</title>
+<meta name="description" content="El Sindicato Binario — an international CTF syndicate. One scoreboard. We pwn. We patch. We repeat.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2305080a'/%3E%3Cpath d='M16 3 27 9.5v13L16 29 5 22.5v-13z' fill='none' stroke='%2300ff9c' stroke-width='2'/%3E%3Ctext x='8' y='20' font-family='monospace' font-size='9' fill='%2300ff9c'%3EESB%3C/text%3E%3C/svg%3E">
 <style>
 /* ================================================================
@@ -629,6 +629,29 @@ footer{border-top:1px solid var(--line);background:rgba(8,13,16,.85);position:re
 .adm-note{font-size:11px;color:var(--muted);border:1px dashed var(--line);padding:10px 12px;margin-bottom:14px}
 #t-joinreqs .empty{padding:30px;text-align:center;color:var(--muted)}
 
+/* ===== v4.6 advanced design layer ===== */
+/* 2) scanline sweep on cards */
+.card,.member{position:relative;overflow:hidden}
+.card::after,.member::after{content:"";position:absolute;left:-120%;top:0;width:60%;height:100%;pointer-events:none;
+  background:linear-gradient(105deg,transparent,rgba(0,255,156,.07) 45%,rgba(160,255,220,.14) 50%,rgba(0,255,156,.07) 55%,transparent);
+  transform:skewX(-12deg)}
+.card:hover::after,.member:hover::after{animation:scan-sweep .9s ease forwards}
+@keyframes scan-sweep{to{left:130%}}
+/* 3) neon pulse on primary CTAs */
+.btn:not(.ghost):not(.mini){animation:neon-breathe 3.2s ease-in-out infinite}
+@keyframes neon-breathe{0%,100%{box-shadow:0 0 6px rgba(0,255,156,.25)}50%{box-shadow:0 0 16px rgba(0,255,156,.55)}}
+/* 4) selection + scrollbar */
+::selection{background:rgba(0,255,156,.28);color:#eafff4}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:rgba(0,255,156,.3);border:2px solid var(--bg);border-radius:6px}
+::-webkit-scrollbar-thumb:hover{background:rgba(0,255,156,.55)}
+/* 5) nav logo flicker hover */
+#hd .logo:hover span:first-child{animation:logo-flick .5s steps(2) 2}
+@keyframes logo-flick{50%{opacity:.35}}
+/* 6) section title decode caret */
+.sec-title::after{content:"▮";color:var(--green);animation:cdpulse 1.1s steps(1) infinite;margin-left:6px;font-size:.7em;vertical-align:baseline}
+
 </style>
 <style>
 /* ================================================================
@@ -787,7 +810,7 @@ h1.glitch:hover::after{animation-duration:.6s}
 <!-- boot -->
 <div id="boot" aria-hidden="true">
   <div class="boot-box">
-    <div class="bt">&gt;_ EL SINDICATO BINARY</div>
+    <div class="bt">&gt;_ EL SINDICATO BINARIO</div>
     <div id="boot-lines"></div>
     <span class="caret"></span>
   </div>
@@ -798,7 +821,7 @@ h1.glitch:hover::after{animation-duration:.6s}
   <nav class="nav">
     <a class="logo" href="#top">
       <svg width="30" height="30" viewBox="0 0 32 32"><path d="M16 3 27 9.5v13L16 29 5 22.5v-13z" fill="none" stroke="#00ff9c" stroke-width="2"/><text x="7.5" y="19.5" font-family="monospace" font-size="8.5" fill="#00ff9c">ESB</text><circle cx="16" cy="23.5" r="1.3" fill="#00ff9c"/></svg>
-      <span>EL SINDICATO <span class="tag">// BINARY</span></span>
+      <span>EL SINDICATO <span class="tag">// BINARIO</span></span>
     </a>
     <button id="hamb" aria-label="menu">[≡]</button>
     <div class="nav-right" id="navRight">
@@ -834,7 +857,7 @@ h1.glitch:hover::after{animation-duration:.6s}
     <div class="hero-copy">
       <div class="sysline">root@esb:~$ ./init_syndicate.sh --mode=<b>GLOBAL</b> --status=<b id="heroStatus">ONLINE</b></div>
       <h1 class="glitch" data-text="EL SINDICATO" id="g1">EL SINDICATO</h1>
-      <h1 class="glitch" data-text="BINARY_" id="g2">BINARY_</h1>
+      <h1 class="glitch" data-text="BINARIO_" id="g2">BINARIO_</h1>
       <div class="sub"><span class="p1">root@esb:~$</span> <span id="typer"></span><span class="type-caret"></span></div>
       <div class="hero-chips">
         <span class="hchip">SEASON <b id="chipSeason">2026</b></span>
@@ -862,7 +885,7 @@ h1.glitch:hover::after{animation-duration:.6s}
     <p class="sec-desc reveal">An international capture-the-flag syndicate. Born in India, built for the world — one operator cell across <span class="hl">many countries, one scoreboard</span>.</p>
     <div class="about-grid">
       <div class="manifesto reveal">
-        <p><span class="hl">EL SINDICATO BINARY</span> — "El Sindicato" means <span class="hl">the syndicate</span>: a tight crew that moves like one unit. "Binary" is our worldview — under every system, every app, every protocol, it's all just ones and zeros waiting to be understood.</p>
+        <p><span class="hl">EL SINDICATO BINARIO</span> — "El Sindicato" means <span class="hl">the syndicate</span>: a tight crew that moves like one unit. "Binary" is our worldview — under every system, every app, every protocol, it's all just ones and zeros waiting to be understood.</p>
         <p>We are remote-first and border-less. One operator captures the flag from Asia, another pops the shell from the Americas, and by sunrise the writeup is pushed from Kerala. Different time zones, one scoreboard.</p>
         <p>Between events we run cross-country training rooms, internal leaderboards, and mentor juniors in every category we play. Knowledge that stays hidden is knowledge wasted.</p>
         <p style="color:var(--muted);font-size:13px">// official languages: english, tanglish &amp; raw machine code.</p>
@@ -1091,7 +1114,7 @@ score  = Σ earned  <span class="c"># across all CTFs</span></div>
     <div>
       <a class="logo" href="#top" style="margin-bottom:14px">
         <svg width="30" height="30" viewBox="0 0 32 32"><path d="M16 3 27 9.5v13L16 29 5 22.5v-13z" fill="none" stroke="#00ff9c" stroke-width="2"/><text x="7.5" y="19.5" font-family="monospace" font-size="8.5" fill="#00ff9c">ESB</text><circle cx="16" cy="23.5" r="1.3" fill="#00ff9c"/></svg>
-        <span>EL SINDICATO <span class="tag">// BINARY</span></span>
+        <span>EL SINDICATO <span class="tag">// BINARIO</span></span>
       </a>
       <p style="margin-top:14px;max-width:360px">International CTF syndicate — one scoreboard. We pwn, we patch, we write up, we repeat. See you on the leaderboard.</p>
       <div class="socials">
@@ -1127,7 +1150,7 @@ score  = Σ earned  <span class="c"># across all CTFs</span></div>
     </div>
   </div>
   <div class="foot-bottom">
-    <span>© <span id="yr"></span> EL SINDICATO BINARY — all systems pwned.</span>
+    <span>© <span id="yr"></span> EL SINDICATO BINARIO — all systems pwned.</span>
     <span>backend :: <span id="modeTag2" style="color:var(--green)">—</span> · made with &lt;3, caffeine &amp; gdb</span>
   </div>
 </footer>
@@ -1234,7 +1257,7 @@ score  = Σ earned  <span class="c"># across all CTFs</span></div>
   <main class="app-main">
     <div class="app-topbar">
       <h2 id="dashTitle">Operator console</h2>
-      <span class="crumbs" id="dashCrumb">EL SINDICATO BINARY // OPERATOR</span>
+      <span class="crumbs" id="dashCrumb">EL SINDICATO BINARIO // OPERATOR</span>
     </div>
 
     <div class="app-panel active" id="dp-overview">
@@ -1324,7 +1347,7 @@ score  = Σ earned  <span class="c"># across all CTFs</span></div>
   <main class="app-main">
     <div class="app-topbar">
       <h2 id="admTitle">Command center</h2>
-      <span class="crumbs">EL SINDICATO BINARY // TEAM COMMAND</span>
+      <span class="crumbs">EL SINDICATO BINARIO // TEAM COMMAND</span>
     </div>
 
     <div class="app-panel active" id="t-overview">
@@ -1528,7 +1551,7 @@ score  = Σ earned  <span class="c"># across all CTFs</span></div>
 </div>
 <script>
 /* ================================================================
-   EL SINDICATO BINARY — data.js
+   EL SINDICATO BINARIO — data.js
    data & config — EDIT THIS FILE to manage members/seed/topics
    ================================================================ */
 /* ★★★★★★★★ PASTE YOUR SUPABASE PROJECT CREDENTIALS HERE ★★★★★★★★ */
@@ -1659,8 +1682,8 @@ async function seedData(){
     channels, messages,
     settings:{join_requests:[],
       discord_invite:"discord.gg/elsindicato-binary", ctftime:"https://ctftime.org/team/elsindicato-binary",
-      linkedin:"https://linkedin.com/company/el-sindicato-binary", contact:"contact@elsindicatobinary.team",
-      recruit:"recruit@elsindicatobinary.team", flagfmt:"ESB{...}",
+      linkedin:"https://linkedin.com/company/el-sindicato-binary", contact:"contact@elsindicatobinario.team",
+      recruit:"recruit@elsindicatobinario.team", flagfmt:"ESB{...}",
       ticker:["SYNDICATE NETWORK ONLINE — new season initialized","RECRUITMENT :: open — any country, any timezone","STATS RESET :: fresh scoreboard — go capture something","TRAINING ROOM :: weekly — ask team command for the schedule"],
       topics:TOPICS_DEFAULT
     }
@@ -1671,7 +1694,7 @@ async function seedData(){
 </script>
 <script>
 /* ================================================================
-   EL SINDICATO BINARY — backend.js
+   EL SINDICATO BINARIO — backend.js
    backend layer — LocalBackend (demo) + SupaBackend (live) + state
    ================================================================ */
 /* ============ BACKEND: LOCAL (demo mode — localStorage) ============ */
@@ -2067,7 +2090,7 @@ function teamLink(t){return location.origin+location.pathname+"#jointeam/"+t.id.
 </script>
 <script>
 /* ================================================================
-   EL SINDICATO BINARY — ui.js
+   EL SINDICATO BINARIO — ui.js
    public site rendering — squad/vault/topics/scoreboard/ops/meta
    ================================================================ */
 /* ============================================================
@@ -2308,7 +2331,7 @@ function renderMeta(){
   $("#intelTerm").innerHTML=`
    <div class="ln"><span class="pr">$</span> cat team.json</div>
    <div class="ln dim">{</div>
-   <div class="ln">&nbsp;&nbsp;"name"&nbsp;&nbsp;: <span class="pr">"El Sindicato Binary"</span>,</div>
+   <div class="ln">&nbsp;&nbsp;"name"&nbsp;&nbsp;: <span class="pr">"El Sindicato Binario"</span>,</div>
    <div class="ln">&nbsp;&nbsp;"founded": <span class="pr">2021, India</span>,</div>
    <div class="ln">&nbsp;&nbsp;"type"&nbsp;&nbsp;: <span class="pr">"international CTF syndicate"</span>,</div>
    <div class="ln">&nbsp;&nbsp;"operators": <span class="pr">${g.operators} across ${g.countries} countries</span>,</div>
@@ -2355,7 +2378,7 @@ function renderAllPublic(){
 </script>
 <script>
 /* ================================================================
-   EL SINDICATO BINARY — fx.js
+   EL SINDICATO BINARIO — fx.js
    visual fx — matrix · typewriter · 3D globe · reveals · tilt · sounds
    ================================================================ */
 /* ============================================================
@@ -2643,7 +2666,7 @@ $("#joinForm").addEventListener("submit",async e=>{
 </script>
 <script>
 /* ================================================================
-   EL SINDICATO BINARY — auth.js
+   EL SINDICATO BINARIO — auth.js
    auth · router · member dashboard
    ================================================================ */
 /* ============================================================
@@ -2867,7 +2890,7 @@ $("#pw-save").onclick=async()=>{
 </script>
 <script>
 /* ================================================================
-   EL SINDICATO BINARY — admin.js
+   EL SINDICATO BINARIO — admin.js
    admin panel — users · CTFs · invites · team builder · results
    ================================================================ */
 /* ============================================================
@@ -3375,7 +3398,7 @@ $("#st-save").onclick=async()=>{
 };
 /* --- setup --- */
 const SQL_SCHEMA=`-- ============================================================
--- EL SINDICATO BINARY :: supabase schema (run in SQL editor once)
+-- EL SINDICATO BINARIO :: supabase schema (run in SQL editor once)
 -- ============================================================
 create or replace function public.is_admin() returns boolean
 language sql security definer stable as
@@ -3536,7 +3559,7 @@ async function renderAdmJoinReqs(){
 </script>
 <script>
 /* ================================================================
-   EL SINDICATO BINARY — main.js
+   EL SINDICATO BINARIO — main.js
    hidden terminal · konami · boot · init
    ================================================================ */
 /* ============================================================
@@ -3548,7 +3571,7 @@ function tPrint(html){const d=document.createElement("div");d.className="term-li
 function openTerm(){
   tOverlay.classList.add("open");
   if(!termOpened){termOpened=true;
-    tPrint("<span class='ok'>EL SINDICATO BINARY // guest shell v3.0</span>");
+    tPrint("<span class='ok'>EL SINDICATO BINARIO // guest shell v3.0</span>");
     tPrint("<span class='dim'>unauthorized access is... encouraged, actually. type 'help'.</span>");tPrint("&nbsp;");}
   setTimeout(()=>tIn.focus(),50);
 }
@@ -3686,8 +3709,12 @@ const bootLines=[
   ██╔════╝██║     ████╗ ████║██║████╗  ██║██╔════╝██╔══██║╚══██╔══╝██╔═══██╗
   █████╗  ██║     ██╔████╔██║██║██╔██╗ ██║██║     ███████║   ██║   ██║   ██║
   ██╔══╝  ██║     ██║╚██╔╝██║██║██║╚██╗██║██║     ██╔══██║   ██║   ██║   ██║
-  ███████╗███████╗██║ ╚═╝ ██║██║██║ ╚████║╚██████╗██║  ██║   ██║   ╚██████╔╝
-  ╚══════╝╚══════╝╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝ ╚═════╝╚═╝  ╚═╝   ╚═╝    ╚═════╝
+  ███████╗███████╗██║ ╚═╝ ██║██║██║ ╚████║╚██████╗██║  ██║██████╗ ██╗    ██╗ ██████╗ ██████╗
+  ╚══════╝╚══════╝╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝ ╚═════╝╚═╝  ╚═╝╚════██╗██║    ██║██╔═══██╗██╔══██╗
+         E S B  //  EL SINDICATO BINARIO          █████╔╝██║ █╗ ██║██║   ██║██████╔╝██║  ██║
+         est. 2021 · worldwide cell                ██╔══╝ ██║███╗██║██║   ██║██╔══██╗██║  ██║
+                                                   ██║    ╚███╔███╔╝╚██████╔╝██║  ██║██████╔╝
+                                                   ╚═╝     ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═════╝
 `,"color:#00ff9c;font-size:10px;");
   console.log("%c vanakkam machi 👋 — poking around? we like you already.","color:#00ff9c;font-size:13px;");
   console.log("%c> flag: ESB{c0ns0l3_1s_n0t_4_s3cur1ty_b0und4ry}","color:#ffb000;font-size:13px;");
@@ -3696,7 +3723,7 @@ const bootLines=[
 </script>
 <script>
 /* ================================================================
-   EL SINDICATO BINARY — chat.js
+   EL SINDICATO BINARIO — chat.js
    team chat: war-room · topic groups · CTF ops rooms · team rooms ·
    direct messages. Text + images + .zip (≤10MB, IndexedDB storage).
    Groups are opened by admin; DMs anyone. Admin moderates everything.
@@ -4021,7 +4048,7 @@ window.addEventListener("beforeunload",()=>{if(CH.poll)clearInterval(CH.poll);})
 </script>
 <script>
 /* ================================================================
-   EL SINDICATO BINARY — interact.js
+   EL SINDICATO BINARIO — interact.js
    the interactive layer: sound fx · confetti · command palette ·
    section dots · magnetic buttons · operator radar profiles ·
    squad search/filter · accent themes · micro-interactions
@@ -4237,7 +4264,8 @@ window.__buildSqChips=function(){
   });
   /* interested-topics filter (from player dossiers, min 3 each) */
   const tc=$("#sqTopicChips");if(tc){
-    const topics=[...new Set(S.users.flatMap(u=>u.topics||[]))].sort();
+    const seen=new Set();
+    const topics=S.users.flatMap(u=>u.topics||[]).filter(t=>{const k=String(t).toLowerCase();if(seen.has(k))return false;seen.add(k);return true;}).sort();
     const ct=window.__sqF.topic;
     tc.innerHTML=`<span class="tq-lbl">INTERESTED TOPIC ▸</span>`+["all",...topics].map(t=>
       `<button class="sqchip tchip ${ct===t||(t==="all"&&ct==="all")?"on":""}" data-t="${esc(t)}">${t==="all"?"ALL":esc(t)}</button>`).join("");
@@ -4374,6 +4402,26 @@ if(matchMedia("(hover:hover)").matches){
 window.__buildSqChips&&window.__buildSqChips();
 window.__themeSwatches&&window.__themeSwatches();
 
+/* ============ 11. SECTION TITLE DECODE-ON-REVEAL (v4.6) ============ */
+(function(){
+  const titles=$$(".sec-title");if(!titles.length)return;
+  const CH="!<>-_\\/[]{}=+*^?#$%&";
+  const io=new IntersectionObserver(es=>es.forEach(e=>{
+    if(!e.isIntersecting)return;
+    const el=e.target;
+    if(el.dataset.done)return;el.dataset.done="1";
+    const fin=el.textContent;let f=0;
+    (function dec(){
+      f++;let out="";
+      for(let i=0;i<fin.length;i++)out+=i<f/2?fin[i]:CH[(Math.random()*CH.length)|0];
+      el.textContent=out;
+      if(f/2<fin.length)requestAnimationFrame(dec);else el.textContent=fin;
+    })();
+    io.unobserve(el);
+  }),{threshold:.5});
+  titles.forEach(t=>io.observe(t));
+})();
+
 </script>
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a435764c7c5685c4',t:'MTc5MDc5NDczOA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
